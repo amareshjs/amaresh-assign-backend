@@ -11,9 +11,6 @@ public class CheckoutPayment {
 	@NotNull(message = "Product Id Required")
 	private Long productId;
 	
-//	@NotBlank(message="Currency is Required")
-//	private String currency;
-	
 	@NotBlank(message="Provide Success URL")
 	private String successUrl;
 	
@@ -28,15 +25,9 @@ public class CheckoutPayment {
 		return name;
 	}
 	
-
-//	public String getCurrency() {
-//		return currency;
-//	}
-
 	public Long getProductId() {
 		return productId;
 	}
-
 
 	public String getSuccessUrl() {
 		return successUrl;

@@ -1,14 +1,20 @@
 package com.mb.assignment.dao;
 
 import java.util.List;
+
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.mb.assignment.entity.Product;
+import com.mb.assignment.enums.ErrorCode;
 import com.mb.assignment.exception.CustomException;
 import com.mb.assignment.repository.ProductRepository;
 
+
+@Repository
 public class ProductDaoImpl implements ProductDao{
 	
 	@Autowired
@@ -20,7 +26,7 @@ public class ProductDaoImpl implements ProductDao{
 			return productRepository.findAll();
 		}
 		catch(Exception e) {
-			throw new CustomException(404,"Something Went Wrong "+e.getMessage());
+			throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR,e.getMessage());
 		}
 	}
 
@@ -31,7 +37,7 @@ public class ProductDaoImpl implements ProductDao{
 			return "Product Added..";
 		}
 		catch(Exception e) {
-			throw new CustomException(404,"Something Went Wrong"+e.getMessage());
+			throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR,e.getMessage());
 		}
 	}
 	
@@ -41,7 +47,7 @@ public class ProductDaoImpl implements ProductDao{
 			return productRepository.findById(id);
 		}
 		catch(Exception e) {
-			throw new CustomException(404,"Something Went Wrong"+e.getMessage());
+			throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR,e.getMessage());
 		}
 	}
 

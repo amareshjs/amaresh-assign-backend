@@ -1,6 +1,5 @@
 package com.mb.assignment.entity;
 
-import java.awt.Image;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="products")
 public class Product
 {
 	@Id
@@ -32,7 +33,7 @@ public class Product
 	private Long price;
 	
 	@OneToMany(targetEntity = Image.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "product_images", referencedColumnName = "id")
+	@JoinColumn(name = "product_id", referencedColumnName = "id")
 	private List<Image> image;
 	
 	

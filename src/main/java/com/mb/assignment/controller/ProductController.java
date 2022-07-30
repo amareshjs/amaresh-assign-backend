@@ -3,7 +3,8 @@ package com.mb.assignment.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.mb.assignment.dto.ProductDto;
 import com.mb.assignment.entity.Product;
 import com.mb.assignment.model.CheckoutPayment;
 import com.mb.assignment.service.ProductService;
@@ -31,14 +33,13 @@ public class ProductController {
 	ProductService productService;
 
 	@GetMapping()
-	@CrossOrigin(origins = "http://localhost:4200")
-	public List<Product> getAllProducts() {
+	public List<Product> getAllProducts() { 	
 		return productService.getAllProducts();
 	}
 
 	@PostMapping()
-	public String addProduct(@RequestBody Product product) {
-		return productService.addProduct(product);
+	public String addProduct(@Valid @RequestBody ProductDto productDto) {
+		return productService.addProduct(productDto);
 	}
 	
 	private static void init()
@@ -48,8 +49,9 @@ public class ProductController {
 	
 	
 	private static Gson gson = new Gson();
+	
 	@PostMapping("/payments")
-	public String paymentWithCheckoutPage(@RequestBody CheckoutPayment payment) throws StripeException
+	public String paymentWithCheckoutPage(@Valid @RequestBody CheckoutPayment payment) throws StripeException
 	{
 		
 		init();

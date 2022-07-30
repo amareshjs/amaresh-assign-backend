@@ -10,5 +10,4 @@ public interface ProductDao{
 	public List<Product> findAll();
 	public String addProduct(Product product);
 	public Optional<Product> findProductById(Long id);
-	
 }
