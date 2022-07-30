@@ -13,11 +13,9 @@ import com.mb.assignment.util.ErrorResponse;
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(value= {CustomException.class})
-	@ResponseStatus(HttpStatus.ALREADY_REPORTED)
-	public ErrorResponse handleCustomException(Exception e) {
+	public ErrorResponse handleCustomException(CustomException e) {
 		return new ErrorResponse(new Date(), "Something Went Wrong",
-				e.getMessage(),HttpStatus.ALREADY_REPORTED.value(),
+				e.getMessage(),e.getErrorCode().getCode(),
 				e.getMessage());
 	}
-
 }
