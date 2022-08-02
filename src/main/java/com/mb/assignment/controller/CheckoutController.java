@@ -53,8 +53,6 @@ public class CheckoutController {
 		Stripe.apiKey = "sk_test_51LPhWbSBnwl8NuCHyBAi1kvgI7M49glQIin9F0taedeYJOOtQLrqSGZpOSvsLwWPksNn4djpX30yCsRI0E1NFPvb00TBmWl7Yx";
 	}
 
-
-	String webhookSecret="whsec_c14a33304da1d2afeea649f165742b5153bea51c5fad7fbaa5c87f350c9df1a9";
 	
 	
 private static Gson gson = new Gson();
@@ -100,53 +98,11 @@ private static Gson gson = new Gson();
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	@PostMapping(WEBHOOK)
-	private ResponseEntity<?> extractEventFromSignature(HttpServletRequest request, PaymentDetail paymentDetail)
-	{
-		String sigHeader = request.getHeader("Stripe-Signature");
-		Event event = null;
-		try
-		{
-			String payload = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-			event = Webhook.constructEvent(payload, sigHeader,webhookSecret);
-		}
-		catch (Exception e)
-		{
-			
-		}
-		if ("charge.succeeded".equals(event.getType()))
-		{
-			System.out.println("In Checkout Session completed");
-			PaymentDetail details = new PaymentDetail();
-			EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
-			StripeObject stripeObject = null;
-			if (dataObjectDeserializer.getObject().isPresent())
-			{
-				stripeObject = dataObjectDeserializer.getObject().get();
-			}
-			Charge charge = (Charge) stripeObject;
-			System.out.println("Strip Object" + stripeObject);
-			System.out.println(charge.getAmount());
-			details.setCustomerEmail(charge.getBillingDetails().getEmail());
-			details.setCustomerName(charge.getBillingDetails().getName());
-			details.setCustomerId(charge.getCustomer());
-			details.setAmount(charge.getAmount());
-			details.setCurrency(charge.getCurrency());
-			details.setCountry(charge.getBillingDetails().getAddress().getCountry());
-			details.setPaymentIntent(charge.getPaymentIntent());
-			details.setPaymentMethod(charge.getPaymentMethodDetails().getType());
-			details.setStatus(charge.getStatus());
-			paymentDetailService.save(details);
-		}
-		return new ResponseEntity<>(event, HttpStatus.OK);
+	private String saveSuccessData(HttpServletRequest request) {
+		paymentDetailService.extractEventFromSignature(request);
+		return "data added";
+		
 	}
-
+	
 }
